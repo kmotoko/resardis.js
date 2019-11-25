@@ -9,8 +9,10 @@
   "author": "Yoonjae Yoo",
   "license": "MIT",
   "scripts": {
-    "build": "./node_modules/typescript/bin/tsc",
-    "docs": "./node_modules/typedoc/bin/typedoc --options ./typedoc.js",
+    "lint": "yarn eslint --ext .js,.ts .",
+    "lint:fix": "yarn eslint --ext .js,.ts . --fix",
+    "build": "yarn tsc",
+    "docs": "yarn typedoc --options ./typedoc.js",
     "prepublish": "yarn build"
   },
   "repository": {
@@ -34,11 +36,11 @@
   },
   "devDependencies": {
     "@types/bn.js": "^4.11.5",
-    "prettier": "^1.16.4",
+    "@types/node": "^12.12.12",
+    "@typescript-eslint/eslint-plugin": "^2.9.0",
+    "@typescript-eslint/parser": "^2.9.0",
+    "eslint": "^6.7.1",
     "ts-protoc-gen": "^0.6.0",
-    "tslint": "^5.15.0",
-    "tslint-config-prettier": "^1.18.0",
-    "tslint-plugin-prettier": "^2.0.1",
     "typedoc": "^0.14.2",
     "typescript": "3.4.1"
   }
