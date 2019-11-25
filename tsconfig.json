@@ -16,6 +16,7 @@
     "declaration": true,
     "sourceMap": true,
     "outDir": "dist",
+    "noUnusedLocals": true,
     "noImplicitAny": false
   },
   "include": [
