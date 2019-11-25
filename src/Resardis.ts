@@ -6,7 +6,7 @@ import LoomChain from "./chains/LoomChain";
 import { ethereumPrivateKeyFromMnemonic, loomPrivateKeyFromMnemonic } from "./utils/crypto-utils";
 
 export default class Resardis {
-    public static fromMnemonic(mnemonic: string, testnet = false) {
+    public static fromMnemonic (mnemonic: string, testnet = false) {
         return new Resardis(ethereumPrivateKeyFromMnemonic(mnemonic), loomPrivateKeyFromMnemonic(mnemonic), testnet);
     }
 
@@ -18,7 +18,7 @@ export default class Resardis {
      * @param loomPrivateKey - Loom Private Key (base64)
      * @param testnet - `true` if you want to interact with testnet, `false` otherwise
      */
-    constructor(ethereumPrivateKey: string, loomPrivateKey: string, testnet = false) {
+    constructor (ethereumPrivateKey: string, loomPrivateKey: string, testnet = false) {
         this.ethereumChain = new EthereumChain(ethereumPrivateKey, testnet);
         this.loomChain = new LoomChain(loomPrivateKey, testnet);
     }
@@ -45,7 +45,7 @@ export default class Resardis {
         await addressMapper.addIdentityMappingAsync(
             this.ethereumChain.getAddress(),
             this.loomChain.getAddress(),
-            signer
+            signer,
         );
     };
 }

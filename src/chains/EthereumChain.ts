@@ -44,7 +44,7 @@ class EthereumChain implements Chain {
     private wallet!: ethers.Wallet;
     private address!: Address;
 
-    constructor(privateKey: string, testnet = false) {
+    constructor (privateKey: string, testnet = false) {
         this.config = EthereumConfig.create(testnet);
         this.privateKey = privateKey;
         this.init(privateKey);
@@ -68,7 +68,7 @@ class EthereumChain implements Chain {
 
     public updateAssetBalancesAsync = (
         assets: ERC20Asset[],
-        updateBalance: (address: Address, balance: ethers.utils.BigNumber) => void
+        updateBalance: (address: Address, balance: ethers.utils.BigNumber) => void,
     ) => {
         return Promise.all(
             assets.map(asset => {
@@ -76,14 +76,14 @@ class EthereumChain implements Chain {
                     ? this.balanceOfETHAsync()
                     : this.balanceOfERC20Async(asset);
                 return promise.then(balance => updateBalance(asset.ethereumAddress, balance));
-            })
+            }),
         );
     };
 
     public transferERC20Async = (
         asset: ERC20Asset,
         to: string,
-        amount: ethers.utils.BigNumber
+        amount: ethers.utils.BigNumber,
     ): Promise<ethers.providers.TransactionResponse> => {
         const erc20 = this.createERC20(asset);
         return erc20.transfer(to, amount);
@@ -95,14 +95,14 @@ class EthereumChain implements Chain {
 
     public transferETHAsync = (
         to: string,
-        amount: ethers.utils.BigNumber
+        amount: ethers.utils.BigNumber,
     ): Promise<ethers.providers.TransactionResponse> => {
         return this.getSigner().sendTransaction({ to, value: amount.toHexString() });
     };
 
     public approveETHAsync = (
         spender: string,
-        amount: ethers.utils.BigNumber
+        amount: ethers.utils.BigNumber,
     ): Promise<ethers.providers.TransactionResponse> => {
         return Promise.resolve({
             to: ZERO_ADDRESS,
@@ -116,8 +116,8 @@ class EthereumChain implements Chain {
             chainId: Number(this.config.chainId),
             wait: () =>
                 Promise.resolve({
-                    byzantium: true
-                })
+                    byzantium: true,
+                }),
         });
     };
 
@@ -129,7 +129,7 @@ class EthereumChain implements Chain {
     public approveERC20Async = (
         asset: ERC20Asset,
         spender: string,
-        amount: ethers.utils.BigNumber
+        amount: ethers.utils.BigNumber,
     ): Promise<ethers.providers.TransactionResponse> => {
         const erc20 = this.createERC20(asset);
         return erc20.approve(spender, amount);
@@ -157,7 +157,7 @@ class EthereumChain implements Chain {
      */
     public depositERC20Async = (
         asset: ERC20Asset,
-        amount: ethers.utils.BigNumber
+        amount: ethers.utils.BigNumber,
     ): Promise<ethers.providers.TransactionResponse> => {
         const gateway = this.getGateway();
         return gateway.depositERC20(amount, asset.ethereumAddress.toLocalAddressString());
@@ -174,7 +174,7 @@ class EthereumChain implements Chain {
      */
     public withdrawETHAsync = (
         amount: ethers.utils.BigNumber,
-        signature: string
+        signature: string,
     ): Promise<ethers.providers.TransactionResponse> => {
         const gateway = this.getGateway();
         return gateway.withdrawETH(amount, signature);
@@ -193,7 +193,7 @@ class EthereumChain implements Chain {
     public withdrawERC20Async = (
         asset: ERC20Asset,
         amount: ethers.utils.BigNumber,
-        signature: string
+        signature: string,
     ): Promise<ethers.providers.TransactionResponse> => {
         const gateway = this.getGateway();
         return gateway.withdrawERC20(amount, signature, asset.ethereumAddress.toLocalAddressString());
@@ -205,7 +205,7 @@ class EthereumChain implements Chain {
      *
      * @returns an array of `ETHReceived`
      */
-    public getETHReceivedLogsAsync = async (fromBlock: number = 0, toBlock: number = 0): Promise<ETHReceived[]> => {
+    public getETHReceivedLogsAsync = async (fromBlock = 0, toBlock = 0): Promise<ETHReceived[]> => {
         const provider = this.getProvider();
         const gateway = this.getGateway();
         if (fromBlock === 0) {
@@ -221,13 +221,13 @@ class EthereumChain implements Chain {
             address: this.config.gateway.address,
             topics: [event.topic],
             fromBlock,
-            toBlock
+            toBlock,
         });
         return logs
             .sort((l1, l2) => (l2.blockNumber || 0) - (l1.blockNumber || 0))
             .map(log => ({
                 log,
-                ...event.decode(log.data)
+                ...event.decode(log.data),
             }))
             .filter(data => Address.createEthereumAddress(data.from || ZERO_ADDRESS).equals(this.getAddress()));
     };
@@ -242,8 +242,8 @@ class EthereumChain implements Chain {
      */
     public getERC20ReceivedLogsAsync = async (
         asset: ERC20Asset,
-        fromBlock: number = 0,
-        toBlock: number = 0
+        fromBlock = 0,
+        toBlock = 0,
     ): Promise<ERC20Received[]> => {
         const provider = this.getProvider();
         const gateway = this.getGateway();
@@ -260,18 +260,18 @@ class EthereumChain implements Chain {
             address: this.config.gateway.address,
             topics: [event.topic],
             fromBlock,
-            toBlock
+            toBlock,
         });
         return logs
             .sort((l1, l2) => (l2.blockNumber || 0) - (l1.blockNumber || 0))
             .map(log => ({
                 log,
-                ...event.decode(log.data)
+                ...event.decode(log.data),
             }))
             .filter(
                 data =>
                     Address.createEthereumAddress(data.from || ZERO_ADDRESS).equals(this.getAddress()) &&
-                    Address.createEthereumAddress(data.contractAddress || ZERO_ADDRESS).equals(asset.ethereumAddress)
+                    Address.createEthereumAddress(data.contractAddress || ZERO_ADDRESS).equals(asset.ethereumAddress),
             );
     };
 
@@ -281,7 +281,7 @@ class EthereumChain implements Chain {
      *
      * @returns an array of `ETHWithdrawn`
      */
-    public getETHWithdrawnLogsAsync = (fromBlock: number = 0, toBlock: number = 0): Promise<ETHWithdrawn[]> =>
+    public getETHWithdrawnLogsAsync = (fromBlock = 0, toBlock = 0): Promise<ETHWithdrawn[]> =>
         this.getTokenWithdrawnLogsAsync(Address.createEthereumAddress(ZERO_ADDRESS), fromBlock, toBlock);
 
     /**
@@ -292,8 +292,8 @@ class EthereumChain implements Chain {
      */
     public getERC20WithdrawnLogsAsync = (
         asset: ERC20Asset,
-        fromBlock: number = 0,
-        toBlock: number = 0
+        fromBlock = 0,
+        toBlock = 0,
     ): Promise<ERC20Withdrawn[]> => this.getTokenWithdrawnLogsAsync(asset.ethereumAddress, fromBlock, toBlock);
 
     /**
@@ -304,7 +304,7 @@ class EthereumChain implements Chain {
         return await gateway.nonces(this.getAddress().toLocalAddressString());
     };
 
-    private getTokenWithdrawnLogsAsync = async (assetAddress: Address, fromBlock: number = 0, toBlock: number = 0) => {
+    private readonly getTokenWithdrawnLogsAsync = async (assetAddress: Address, fromBlock = 0, toBlock = 0) => {
         const provider = this.getProvider();
         const gateway = this.getGateway();
         if (fromBlock === 0) {
@@ -320,18 +320,18 @@ class EthereumChain implements Chain {
             address: this.config.gateway.address,
             topics: [event.topic, event.encodeTopics([this.getAddress().toLocalAddressString()])],
             fromBlock,
-            toBlock
+            toBlock,
         });
         return logs
             .sort((l1, l2) => (l2.blockNumber || 0) - (l1.blockNumber || 0))
             .map(log => ({
                 log,
-                ...event.decode(log.data)
+                ...event.decode(log.data),
             }))
             .filter(data => Address.createEthereumAddress(data.contractAddress).equals(assetAddress));
     };
 
-    private init(privateKey: string) {
+    private init (privateKey: string) {
         this.provider = new ethers.providers.InfuraProvider(this.config.networkName);
         this.provider.on("end", () => this.init(privateKey));
         this.provider.on("error", () => {});

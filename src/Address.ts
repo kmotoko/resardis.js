@@ -3,13 +3,13 @@ import { Address as LoomAddress, LocalAddress } from "loom-js/dist";
 import { ZERO_ADDRESS } from "./constants";
 
 export default class Address extends LoomAddress {
-    public static setLoomNetworkName(networkName: string) {
+    public static setLoomNetworkName (networkName: string) {
         this.networkName = networkName;
     }
     /**
      * @param address an address of format <Chain ID>:<Hex Address>
      */
-    public static fromString(address: string): Address {
+    public static fromString (address: string): Address {
         const parts = address.split(":");
         if (parts.length !== 2) {
             throw new Error("Invalid address string");
@@ -21,7 +21,7 @@ export default class Address extends LoomAddress {
      * @param address Hex address
      * @returns an `Address` of chainId "eth"
      */
-    public static createEthereumAddress(address: string): Address {
+    public static createEthereumAddress (address: string): Address {
         return new Address("eth", LocalAddress.fromHexString(address));
     }
 
@@ -29,7 +29,7 @@ export default class Address extends LoomAddress {
      * @param address Hex address
      * @returns an `Address` of chainId "default"
      */
-    public static createLoomAddress(address: string): Address {
+    public static createLoomAddress (address: string): Address {
         return new Address(this.networkName, LocalAddress.fromHexString(address));
     }
 

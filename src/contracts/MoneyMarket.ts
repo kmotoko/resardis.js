@@ -23,11 +23,11 @@ const toSavingsRecord = (record: any[]) => ({
     principal: record[4],
     initialTimestamp: new Date(record[5].toNumber() * 1000),
     lastTimestamp: new Date(record[6].toNumber() * 1000),
-    withdrawals: []
+    withdrawals: [],
 });
 
 export default class MoneyMarket extends ethers.Contract {
-    constructor(address: string, signerOrProvider: ethers.Signer | ethers.providers.Provider) {
+    constructor (address: string, signerOrProvider: ethers.Signer | ethers.providers.Provider) {
         super(address, require("@resardis-finance/money-market/abis/MoneyMarket.json"), signerOrProvider);
     }
 
@@ -35,7 +35,7 @@ export default class MoneyMarket extends ethers.Contract {
      * Decimals that were used to calculate interest rate.
      * If decimals are 18, you need to divide each value of interest rate in MoneyMarket by 10^18.
      */
-    public DECIMALS(): Promise<ethers.utils.BigNumber> {
+    public DECIMALS (): Promise<ethers.utils.BigNumber> {
         return this.functions.DECIMALS();
     }
 
@@ -43,42 +43,42 @@ export default class MoneyMarket extends ethers.Contract {
      * Multiplier that were used to calculate interest rate.
      * If multiplier is 10^18, you need to divide each value of interest rate in MoneyMarket by 10^18.
      */
-    public MULTIPLIER(): Promise<ethers.utils.BigNumber> {
+    public MULTIPLIER (): Promise<ethers.utils.BigNumber> {
         return this.functions.MULTIPLIER();
     }
 
     /**
      * Address of ERC20 asset used for savings.
      */
-    public asset(): Promise<string> {
+    public asset (): Promise<string> {
         return this.functions.asset();
     }
 
     /**
      * Address of loan contract.
      */
-    public loan(): Promise<string> {
+    public loan (): Promise<string> {
         return this.functions.loan();
     }
 
     /**
      * Address of savings interest calculator.
      */
-    public savingsCalculator(): Promise<string> {
+    public savingsCalculator (): Promise<string> {
         return this.functions.savingsCalculator();
     }
 
     /**
      * Total amount of savings.
      */
-    public totalFunds(): Promise<ethers.utils.BigNumber> {
+    public totalFunds (): Promise<ethers.utils.BigNumber> {
         return this.functions.totalFunds();
     }
 
     /**
      * Total amount of loan.
      */
-    public totalBorrows(): Promise<ethers.utils.BigNumber> {
+    public totalBorrows (): Promise<ethers.utils.BigNumber> {
         return this.functions.totalBorrows();
     }
 
@@ -88,9 +88,9 @@ export default class MoneyMarket extends ethers.Contract {
      * @param amount Amount of asset to save
      * @param overrides Options for transaction
      */
-    public deposit(
+    public deposit (
         amount: ethers.utils.BigNumber,
-        overrides?: ethers.providers.TransactionRequest
+        overrides?: ethers.providers.TransactionRequest,
     ): Promise<ethers.providers.TransactionResponse> {
         return this.functions.deposit(amount, { ...overrides, gasLimit: 0 });
     }
@@ -103,10 +103,10 @@ export default class MoneyMarket extends ethers.Contract {
      * @param amount Amount of asset to withdraw
      * @param overrides Options for transaction
      */
-    public withdraw(
+    public withdraw (
         recordId: ethers.utils.BigNumber,
         amount: ethers.utils.BigNumber,
-        overrides?: ethers.providers.TransactionRequest
+        overrides?: ethers.providers.TransactionRequest,
     ): Promise<ethers.providers.TransactionResponse> {
         return this.functions.withdraw(recordId, amount, { ...overrides, gasLimit: 0 });
     }
@@ -116,7 +116,7 @@ export default class MoneyMarket extends ethers.Contract {
      *
      * @param user Address
      */
-    public getSavingsRecordIds(user: string): Promise<ethers.utils.BigNumber[]> {
+    public getSavingsRecordIds (user: string): Promise<ethers.utils.BigNumber[]> {
         return this.functions.getSavingsRecordIds(user);
     }
 
@@ -125,7 +125,7 @@ export default class MoneyMarket extends ethers.Contract {
      *
      * @param user Address
      */
-    public getSavingsRecords(user: string): Promise<SavingsRecord[]> {
+    public getSavingsRecords (user: string): Promise<SavingsRecord[]> {
         return this.functions.getSavingsRecords(user).then(records => records.map(toSavingsRecord));
     }
 
@@ -134,7 +134,7 @@ export default class MoneyMarket extends ethers.Contract {
      *
      * @param recordId
      */
-    public getSavingsRecord(recordId: string): Promise<SavingsRecord> {
+    public getSavingsRecord (recordId: string): Promise<SavingsRecord> {
         return this.functions.getSavingsRecord(recordId).then(toSavingsRecord);
     }
 
@@ -144,7 +144,7 @@ export default class MoneyMarket extends ethers.Contract {
      *
      * @param user Address
      */
-    public getRawSavingsRecordIds(user: string): Promise<ethers.utils.BigNumber[]> {
+    public getRawSavingsRecordIds (user: string): Promise<ethers.utils.BigNumber[]> {
         return this.functions.getRawSavingsRecordIds(user);
     }
 
@@ -154,7 +154,7 @@ export default class MoneyMarket extends ethers.Contract {
      *
      * @param user Address
      */
-    public getRawSavingsRecords(user: string): Promise<SavingsRecord[]> {
+    public getRawSavingsRecords (user: string): Promise<SavingsRecord[]> {
         return this.functions.getRawSavingsRecords(user).then(records => records.map(toSavingsRecord));
     }
 
@@ -164,21 +164,21 @@ export default class MoneyMarket extends ethers.Contract {
      *
      * @param recordId
      */
-    public getRawSavingsRecord(recordId: string): Promise<any> {
+    public getRawSavingsRecord (recordId: string): Promise<any> {
         return this.functions.getRawSavingsRecord(recordId).then(toSavingsRecord);
     }
 
     /**
      * Get current daily savings interest rate.
      */
-    public getCurrentSavingsInterestRate(): Promise<ethers.utils.BigNumber> {
+    public getCurrentSavingsInterestRate (): Promise<ethers.utils.BigNumber> {
         return this.functions.getCurrentSavingsInterestRate();
     }
 
     /**
      * Get current yearly savings interest rate.
      */
-    public getCurrentSavingsAPR(): Promise<ethers.utils.BigNumber> {
+    public getCurrentSavingsAPR (): Promise<ethers.utils.BigNumber> {
         return this.functions.getCurrentSavingsAPR();
     }
 
@@ -187,7 +187,7 @@ export default class MoneyMarket extends ethers.Contract {
      *
      * @param amount
      */
-    public getExpectedSavingsInterestRate(amount: ethers.utils.BigNumber): Promise<ethers.utils.BigNumber> {
+    public getExpectedSavingsInterestRate (amount: ethers.utils.BigNumber): Promise<ethers.utils.BigNumber> {
         return this.functions.getExpectedSavingsInterestRate(amount);
     }
 
@@ -196,7 +196,7 @@ export default class MoneyMarket extends ethers.Contract {
      *
      * @param amount
      */
-    public getExpectedSavingsAPR(amount: ethers.utils.BigNumber): Promise<ethers.utils.BigNumber> {
+    public getExpectedSavingsAPR (amount: ethers.utils.BigNumber): Promise<ethers.utils.BigNumber> {
         return this.functions.getExpectedSavingsAPR(amount);
     }
 }

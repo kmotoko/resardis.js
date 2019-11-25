@@ -28,6 +28,6 @@ export {
     MoneyMarket,
     BigNumberUtils,
     CryptoUtils,
-    EthersUtils
+    EthersUtils,
 };
 export default Resardis;

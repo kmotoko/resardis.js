@@ -15,8 +15,8 @@ export const getLogs = async (provider: ethers.providers.Provider, filter: ether
                     fromBlock: from,
                     toBlock: Math.min(from + blocksPerPage - 1, to),
                     address: filter.address,
-                    topics: filter.topics
-                })
+                    topics: filter.topics,
+                }),
             );
             from += blocksPerPage;
         }
