@@ -1,6 +1,6 @@
 module.exports = {
     src: [
-        './src/Alice.ts',
+        './src/Resardis.ts',
         './src/Address.ts',
         './src/ERC20Asset.ts',
         './src/chains/Chain.ts',
@@ -21,7 +21,7 @@ module.exports = {
     excludeProtected: true,
     excludeExternals: true,
     readme: 'README.md',
-    name: 'alice.js',
+    name: 'resardis.js',
     ignoreCompilerErrors: true,
     listInvalidSymbolLinks: true
 };

@@ -28,7 +28,7 @@ const toSavingsRecord = (record: any[]) => ({
 
 export default class MoneyMarket extends ethers.Contract {
     constructor(address: string, signerOrProvider: ethers.Signer | ethers.providers.Provider) {
-        super(address, require("@alice-finance/money-market/abis/MoneyMarket.json"), signerOrProvider);
+        super(address, require("@resardis-finance/money-market/abis/MoneyMarket.json"), signerOrProvider);
     }
 
     /**

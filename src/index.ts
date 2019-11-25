@@ -1,5 +1,5 @@
 import Address from "./Address";
-import Alice from "./Alice";
+import Resardis from "./Resardis";
 import EthereumChain from "./chains/EthereumChain";
 import LoomChain from "./chains/LoomChain";
 import EthereumConfig from "./config/EthereumConfig";
@@ -30,4 +30,4 @@ export {
     CryptoUtils,
     EthersUtils
 };
-export default Alice;
+export default Resardis;

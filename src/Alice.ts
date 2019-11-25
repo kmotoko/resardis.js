@@ -5,9 +5,9 @@ import EthereumChain from "./chains/EthereumChain";
 import LoomChain from "./chains/LoomChain";
 import { ethereumPrivateKeyFromMnemonic, loomPrivateKeyFromMnemonic } from "./utils/crypto-utils";
 
-export default class Alice {
+export default class Resardis {
     public static fromMnemonic(mnemonic: string, testnet = false) {
-        return new Alice(ethereumPrivateKeyFromMnemonic(mnemonic), loomPrivateKeyFromMnemonic(mnemonic), testnet);
+        return new Resardis(ethereumPrivateKeyFromMnemonic(mnemonic), loomPrivateKeyFromMnemonic(mnemonic), testnet);
     }
 
     private readonly ethereumChain: EthereumChain;
